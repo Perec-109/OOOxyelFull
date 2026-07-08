@@ -1,32 +1,14 @@
 /* ============================================================
-   CONTACT.JS (исправленная версия)
+   CONTACT.JS
    ----------------------------------------------------------
-   Главные изменения относительно старой версии:
-   1. Токен бота и chat_id больше НЕ хранятся во фронтенд-коде —
-      форма отправляет данные на твой Cloudflare Worker, а уже
-      воркер (на сервере, со скрытыми секретами) шлёт их в Telegram.
-   2. Убран сломанный фоллбэк через new Image() — он не мог
-      определить успех/неуспех отправки, потому что Telegram
-      отвечает JSON, а не картинкой, и срабатывал onerror всегда,
-      даже при успешной отправке.
-   3. Понятные сообщения об ошибке + console.error для отладки.
-
-   КАК ПОДКЛЮЧИТЬ:
-   После деплоя воркера (см. /worker/README внутри проекта)
-   пропиши его адрес в index.html на самой форме:
-
-     <form ... data-contact-form data-worker-url="https://ooxyel-contact-proxy.ТВОЙ-ЮЗЕРНЕЙМ.workers.dev">
-
-   Либо просто впиши адрес ниже вместо плейсхолдера.
+   Форма контактов. Токен бота и chat_id НЕ хранятся во фронтенде —
+   форма отправляет данные на Cloudflare Worker (см. /worker),
+   адрес которого задаётся ОДИН РАЗ в config.js.
    ============================================================ */
 
 (function () {
   const form = document.querySelector('[data-contact-form]');
   if (!form) return;
-
-  // ⚠️ Замени на свой адрес после деплоя воркера, например:
-  // 'https://ooxyel-contact-proxy.твой-юзернейм.workers.dev'
-  const WORKER_URL = form.dataset.workerUrl || 'https://ooxyel-contact-proxy.YOUR-SUBDOMAIN.workers.dev';
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -47,12 +29,24 @@
       form.appendChild(status);
     }
 
+    const workerUrl = window.OOX_CONFIG?.WORKER_URL;
+
+    // ---------- Проверка конфига ДО отправки ----------
+    // Если адрес воркера не настроен — сразу говорим об этом,
+    // а не даём человеку ждать и гадать, почему "не работает".
+    if (!workerUrl || workerUrl.includes('YOUR-SUBDOMAIN')) {
+      status.textContent = 'Форма не настроена: не задан адрес сервера отправки (см. config.js).';
+      status.style.color = '#ff8a80';
+      console.error('Contact form error: WORKER_URL не настроен в config.js');
+      return;
+    }
+
     button.textContent = 'Отправляю...';
     button.disabled = true;
     status.textContent = '';
 
     try {
-      const response = await fetch(WORKER_URL, {
+      const response = await fetch(workerUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, message }),

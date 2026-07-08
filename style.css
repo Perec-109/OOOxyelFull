@@ -376,6 +376,25 @@ h1, h2, h3, h4 {
   position: relative;
 }
 
+/* ---------- Убираем двойной отступ на стыках соседних секций ----------
+   Каждая секция выше имеет padding сверху И снизу (section-pad).
+   На стыке двух таких секций подряд (низ одной + верх следующей)
+   получается двойной пустой промежуток — визуально слишком много
+   воздуха между блоками. Здесь сокращаем именно верхний паддинг
+   секции, которая идёт СРАЗУ за другой такой же секцией, оставляя
+   полный section-pad только там, где секция граничит с hero
+   или с футером (там воздух уместен). */
+.about + .collection,
+.collection + .products,
+.products + .lookbook,
+.lookbook + .gallery,
+.gallery + .why,
+.why + .reviews,
+.reviews + .faq,
+.faq + .contact {
+  padding-top: clamp(24px, 4vw, 60px);
+}
+
 .section-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; flex-wrap: wrap; margin-bottom: 64px; }
 
 .products__grid, .collection__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }

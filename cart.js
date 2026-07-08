@@ -13,10 +13,6 @@
 
 (function () {
   const CART_KEY = 'oox_cart';
-  // ⚠️ Тот же адрес воркера, что и в contact.js.
-  // Если меняешь его там — поменяй и здесь (или вынеси в одну переменную,
-  // см. секцию "ВАЖНО" в README).
-  const WORKER_URL_FALLBACK = 'https://ooxyel-contact-proxy.YOUR-SUBDOMAIN.workers.dev';
 
   // ---------- Состояние ----------
   function getCart() {
@@ -213,11 +209,18 @@
 
     const submitBtn = document.getElementById('checkoutSubmitBtn');
     const original = submitBtn.textContent;
+
+    const workerUrl = window.OOX_CONFIG?.WORKER_URL;
+
+    // ---------- Проверка конфига ДО отправки ----------
+    if (!workerUrl || workerUrl.includes('YOUR-SUBDOMAIN')) {
+      showToast('Заказ не отправлен: не настроен адрес сервера (см. config.js).', true);
+      console.error('Checkout error: WORKER_URL не настроен в config.js');
+      return;
+    }
+
     submitBtn.textContent = 'Отправляю...';
     submitBtn.disabled = true;
-
-    const workerUrl =
-      document.querySelector('[data-contact-form]')?.dataset.workerUrl || WORKER_URL_FALLBACK;
 
     try {
       const response = await fetch(workerUrl, {

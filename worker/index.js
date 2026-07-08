@@ -22,6 +22,15 @@ export default {
       return diag(env);
     }
 
+    // ---------- Удобство: понятный ответ, если открыть корень в браузере ----------
+    if (request.method === 'GET' && url.pathname === '/') {
+      return json(
+        { ok: true, message: 'Worker запущен. Для диагностики открой /diag' },
+        200,
+        env
+      );
+    }
+
     // ---------- CORS preflight ----------
     if (request.method === 'OPTIONS') {
       return new Response(null, { headers: corsHeaders(env) });
