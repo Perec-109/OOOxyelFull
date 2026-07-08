@@ -1,0 +1,10 @@
+# Zara — robots.txt
+# Разрешаем индексацию всего сайта всем роботам,
+# кроме служебной страницы 404.
+
+User-agent: *
+Allow: /
+Disallow: /404.html
+
+# ⚠️ Замени на свой реальный адрес после публикации на GitHub Pages
+Sitemap: https://YOUR-USERNAME.github.io/YOUR-REPO/sitemap.xml

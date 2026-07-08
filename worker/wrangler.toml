@@ -1,0 +1,13 @@
+name = "ooxyel-contact-proxy"
+main = "index.js"
+compatibility_date = "2024-01-01"
+
+# Секреты (TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID) НЕ хранятся тут.
+# Их нужно задать командами:
+#   npx wrangler secret put TELEGRAM_BOT_TOKEN
+#   npx wrangler secret put TELEGRAM_CHAT_ID
+#
+# Необязательная переменная — ограничить CORS только своим доменом
+# (по умолчанию разрешены все origin, что ок для старта):
+# [vars]
+# ALLOWED_ORIGIN = "https://your-username.github.io"

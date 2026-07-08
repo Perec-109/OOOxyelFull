@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zara — Premium Clothing Brand</title>
+  <meta name="description" content="Zara — современный премиальный бренд одежды. Новая коллекция, лукбук и эксклюзивные изделия.">
+
+  <!-- ⚠️ Замени на свой реальный домен GitHub Pages -->
+  <link rel="canonical" href="https://YOUR-USERNAME.github.io/YOUR-REPO/">
+
+  <!-- ---------- Open Graph (превью при шаринге в соцсетях/мессенджерах) ---------- -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Zara">
+  <meta property="og:title" content="Zara — Premium Clothing Brand">
+  <meta property="og:description" content="Современный премиальный бренд одежды. Новая коллекция, лукбук и эксклюзивные изделия.">
+  <meta property="og:image" content="https://YOUR-USERNAME.github.io/YOUR-REPO/assets/about-visual.jpg">
+  <meta property="og:url" content="https://YOUR-USERNAME.github.io/YOUR-REPO/">
+  <meta property="og:locale" content="ru_RU">
+
+  <!-- ---------- Twitter Card ---------- -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Zara — Premium Clothing Brand">
+  <meta name="twitter:description" content="Современный премиальный бренд одежды. Новая коллекция, лукбук и эксклюзивные изделия.">
+  <meta name="twitter:image" content="https://YOUR-USERNAME.github.io/YOUR-REPO/assets/about-visual.jpg">
+
+  <!-- ---------- Иконка вкладки ---------- -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 fill=%22%23C9A876%22>O</text></svg>">
+
+  <!-- Шрифты: дисплейный серф для заголовков + чистый sans для текста + моно для лейблов -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- CSS: порядок важен — variables → style → animations → adaptive -->
+  <link rel="stylesheet" href="variables.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="animations.css">
+  <link rel="stylesheet" href="cart.css">
+  <link rel="stylesheet" href="adaptive.css">
+</head>
+
+<body>
+
+  <!-- ===================== ЗАГРУЗЧИК ===================== -->
+  <div class="loader">
+    <div class="loader__logo">Zara</div>
+    <div class="loader__bar"></div>
+    <div class="loader__percent">0%</div>
+  </div>
+
+  <!-- ===================== ФОНОВЫЕ СЛОИ ===================== -->
+  <div class="bg-field"></div>
+  <div class="noise-layer"></div>
+
+  <!-- ===================== КАСТОМНЫЙ КУРСОР ===================== -->
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+
+  <!-- ===================== ШАПКА ===================== -->
+  <header class="navbar">
+    <a href="#hero" class="navbar__logo">Zara</a>
+    <nav class="navbar__links">
+      <a href="#about">О бренде</a>
+      <a href="#collection">Коллекция</a>
+      <a href="#products">Товары</a>
+      <a href="#lookbook">Lookbook</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+    <a href="#contact" class="navbar__cta magnetic">Связаться</a>
+    <button class="navbar__fav magnetic" id="favToggle" aria-label="Избранное">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path>
+      </svg>
+      <span class="navbar__fav-count" id="favCount" hidden>0</span>
+    </button>
+    <button class="navbar__cart magnetic" id="cartToggle" aria-label="Корзина">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="9" cy="21" r="1"></circle>
+        <circle cx="20" cy="21" r="1"></circle>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+      </svg>
+      <span class="navbar__cart-count" id="cartCount" hidden>0</span>
+    </button>
+    <button class="navbar__burger" aria-label="Меню">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- ===================== КОРЗИНА (drawer) ===================== -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+    <div class="cart-drawer__head">
+      <h3>Корзина</h3>
+      <button class="cart-drawer__close" id="cartClose" aria-label="Закрыть">✕</button>
+    </div>
+
+    <div class="cart-drawer__body" id="cartBody">
+      <!-- Рендерится из cart.js -->
+      <p class="cart-drawer__empty">Корзина пуста</p>
+    </div>
+
+    <div class="cart-drawer__footer" id="cartFooter" hidden>
+      <div class="cart-drawer__total">
+        <span>Итого</span>
+        <span id="cartTotal">0 ₸</span>
+      </div>
+      <button class="btn btn--primary cart-drawer__checkout" id="cartCheckoutBtn">Оформить заказ</button>
+    </div>
+  </aside>
+
+  <!-- ===================== ФОРМА ОФОРМЛЕНИЯ ЗАКАЗА ===================== -->
+  <div class="checkout-overlay" id="checkoutOverlay"></div>
+  <div class="checkout-modal" id="checkoutModal" aria-hidden="true">
+    <button class="checkout-modal__close" id="checkoutClose" aria-label="Закрыть">✕</button>
+    <h3>Оформление заказа</h3>
+    <p class="checkout-modal__summary" id="checkoutSummary"></p>
+
+    <form id="checkoutForm" class="checkout-form">
+      <div class="field">
+        <input type="text" id="checkoutName" required>
+        <label>Имя</label>
+      </div>
+      <div class="field">
+        <input type="tel" id="checkoutPhone" required>
+        <label>Телефон</label>
+      </div>
+      <div class="field">
+        <input type="text" id="checkoutAddress">
+        <label>Адрес доставки (необязательно)</label>
+      </div>
+      <button type="submit" class="btn btn--primary magnetic" id="checkoutSubmitBtn">Подтвердить заказ</button>
+    </form>
+  </div>
+
+  <!-- ===================== ИЗБРАННОЕ (drawer) ===================== -->
+  <div class="cart-overlay" id="favOverlay"></div>
+  <aside class="cart-drawer fav-drawer" id="favDrawer" aria-hidden="true">
+    <div class="cart-drawer__head">
+      <h3>Избранное</h3>
+      <button class="cart-drawer__close" id="favClose" aria-label="Закрыть">✕</button>
+    </div>
+    <div class="cart-drawer__body" id="favBody">
+      <p class="cart-drawer__empty">Список избранного пуст</p>
+    </div>
+  </aside>
+
+  <!-- ===================== МОДАЛКА ТОВАРА ===================== -->
+  <div class="checkout-overlay" id="productOverlay"></div>
+  <div class="checkout-modal product-modal" id="productModal" aria-hidden="true">
+    <button class="checkout-modal__close" id="productClose" aria-label="Закрыть">✕</button>
+    <div class="product-modal__grid">
+      <div class="product-modal__media">
+        <img id="productModalImg" src="" alt="">
+      </div>
+      <div class="product-modal__info">
+        <p class="product-modal__cat" id="productModalCat"></p>
+        <h3 id="productModalName"></h3>
+        <div class="product-modal__price">
+          <span class="card__old" id="productModalOld" hidden></span>
+          <span id="productModalPrice"></span>
+        </div>
+        <p class="product-modal__desc" id="productModalDesc"></p>
+
+        <div class="product-modal__sizes">
+          <p class="product-modal__label">Размер</p>
+          <div class="size-picker" id="sizePicker"></div>
+        </div>
+
+        <button class="btn btn--primary magnetic" id="productModalAdd" style="width:100%;margin-top:24px;">Добавить в корзину</button>
+        <p class="product-modal__hint" id="productModalHint"></p>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- ===================== HERO ===================== -->
+    <section class="hero" id="hero">
+      <div class="hero__rotator">
+        <svg viewBox="0 0 200 200">
+          <defs>
+            <path id="circlePath" d="M 100,100 m -85,0 a 85,85 0 1,1 170,0 a 85,85 0 1,1 -170,0" />
+          </defs>
+          <circle class="dot" cx="100" cy="15" r="3"></circle>
+          <text>
+            <textPath href="#circlePath">Zara • NEW COLLECTION • Zara • PREMIUM WEAR •</textPath>
+          </text>
+        </svg>
+      </div>
+
+      <h1 class="hero__title">
+        <span class="line"><span class="split-text">Одежда</span></span>
+        <span class="line"><span class="split-text line--accent">без</span></span>
+        <span class="line"><span class="split-text">компромиссов</span></span>
+      </h1>
+
+      <div class="hero__meta">
+        <p class="hero__desc reveal">Zara — бренд для тех, кто выбирает тишину фактуры
+          вместо шума логотипов. Каждая вещь — результат точной кройки
+          и материалов, которым доверяешь годами.</p>
+
+        <div style="display:flex; gap:18px; flex-wrap:wrap;">
+          <a href="#collection" class="btn btn--primary magnetic reveal">Смотреть коллекцию</a>
+          <a href="#about" class="btn btn--ghost magnetic reveal">О бренде</a>
+        </div>
+      </div>
+
+      <div class="hero__scroll">
+        <span>Скролл</span>
+        <div class="hero__scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- ===================== О БРЕНДЕ ===================== -->
+    <section class="about" id="about">
+      <div class="container about__grid">
+        <div class="about__text">
+          <span class="eyebrow reveal--up">О бренде</span>
+          <h2 class="section-title reveal--up">Создаём вещи,<br>которые носят десятилетиями</h2>
+          <p class="reveal--up">Zara основан на принципе осмысленного минимализма: мы убираем всё лишнее
+            и оставляем только крой, ткань и пропорцию. Каждая коллекция выпускается
+            ограниченным тиражом — без компромиссов в производстве.</p>
+          <p class="reveal--up">Мы работаем с итальянскими и японскими тканями, шьём в небольших
+            ателье и лично контролируем каждую партию перед отправкой клиенту.</p>
+
+          <div class="about__stats stagger">
+            <div>
+              <div class="stat__num"><span class="counter" data-target="9">0</span></div>
+              <div class="stat__label">Лет на рынке</div>
+            </div>
+            <div>
+              <div class="stat__num"><span class="counter" data-target="42">0</span>K</div>
+              <div class="stat__label">Клиентов</div>
+            </div>
+            <div>
+              <div class="stat__num"><span class="counter" data-target="98">0</span>%</div>
+              <div class="stat__label">Возврат лояльных</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="about__visual reveal--blur">
+          <img src="assets/about-visual.svg" alt="Zara — мастерская бренда"
+               onerror="this.parentElement.classList.add('shimmer'); this.remove();">
+          <span class="about__badge">EST. 2017 — ALMATY</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== НОВАЯ КОЛЛЕКЦИЯ ===================== -->
+    <section class="collection" id="collection">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow reveal--up">Новая коллекция</span>
+            <h2 class="section-title reveal--up">FW / 26 — Capsule No.04</h2>
+          </div>
+          <p class="section-sub reveal--up">Капсула из 12 вещей вокруг трёх цветов: чёрный,
+            шампань и глубокий винный. Создана для тех, кто одевается на года вперёд.</p>
+        </div>
+
+        <div class="collection__grid stagger"></div>
+      </div>
+    </section>
+
+    <!-- ===================== ПОПУЛЯРНЫЕ ТОВАРЫ ===================== -->
+    <section class="products" id="products">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow reveal--up">Популярное</span>
+            <h2 class="section-title reveal--up">Бестселлеры сезона</h2>
+          </div>
+        </div>
+
+        <div class="filters">
+          <button data-filter="all" class="is-active">Все</button>
+          <button data-filter="outerwear">Верх</button>
+          <button data-filter="dresses">Платья</button>
+          <button data-filter="tops">Топы</button>
+          <button data-filter="bottoms">Низ</button>
+        </div>
+
+        <div class="products__grid stagger"></div>
+      </div>
+    </section>
+
+    <!-- ===================== LOOKBOOK ===================== -->
+    <section class="lookbook" id="lookbook">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow reveal--up">Lookbook</span>
+            <h2 class="section-title reveal--up">Capsule No.04 в движении</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="lookbook__track">
+          <div class="lookbook__slide">
+            <img src="assets/look-01.svg" alt="Look 01" onerror="this.parentElement.style.background='linear-gradient(160deg,#1c1c1f,#101012)'; this.remove();">
+            <div class="lookbook__caption"><span>Look 01</span><span>Coat Noir</span></div>
+          </div>
+          <div class="lookbook__slide">
+            <img src="assets/look-02.svg" alt="Look 02" onerror="this.parentElement.style.background='linear-gradient(160deg,#1c1c1f,#101012)'; this.remove();">
+            <div class="lookbook__caption"><span>Look 02</span><span>Champagne Slip</span></div>
+          </div>
+          <div class="lookbook__slide">
+            <img src="assets/look-03.svg" alt="Look 03" onerror="this.parentElement.style.background='linear-gradient(160deg,#1c1c1f,#101012)'; this.remove();">
+            <div class="lookbook__caption"><span>Look 03</span><span>Signature Suit</span></div>
+          </div>
+          <div class="lookbook__slide">
+            <img src="assets/look-04.svg" alt="Look 04" onerror="this.parentElement.style.background='linear-gradient(160deg,#1c1c1f,#101012)'; this.remove();">
+            <div class="lookbook__caption"><span>Look 04</span><span>Velvet Midi</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ГАЛЕРЕЯ ===================== -->
+    <section class="gallery" id="gallery">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow reveal--up">Галерея</span>
+            <h2 class="section-title reveal--up">Из жизни бренда</h2>
+          </div>
+        </div>
+
+        <div class="gallery__grid">
+          <div class="gallery__item gallery__item--big"><img src="assets/gallery-01.jpg" alt="" onerror="this.parentElement.style.background='#151517'; this.remove();"></div>
+          <div class="gallery__item"><img src="assets/gallery-02.jpg" alt="" onerror="this.parentElement.style.background='#17171a'; this.remove();"></div>
+          <div class="gallery__item gallery__item--tall"><img src="assets/gallery-03.jpg" alt="" onerror="this.parentElement.style.background='#151517'; this.remove();"></div>
+          <div class="gallery__item"><img src="assets/gallery-04.jpg" alt="" onerror="this.parentElement.style.background='#17171a'; this.remove();"></div>
+          <div class="gallery__item"><img src="assets/gallery-05.jpg" alt="" onerror="this.parentElement.style.background='#151517'; this.remove();"></div>
+          <div class="gallery__item"><img src="assets/gallery-06.jpg" alt="" onerror="this.parentElement.style.background='#17171a'; this.remove();"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ПОЧЕМУ ВЫБИРАЮТ НАС ===================== -->
+    <section class="why" id="why">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow reveal--up">Почему Zara</span>
+            <h2 class="section-title reveal--up">Четыре причины доверять бренду</h2>
+          </div>
+        </div>
+
+        <div class="why__grid">
+          <div class="why__item reveal--up">
+            <span class="why__num">01</span>
+            <h3>Ткани премиум-класса</h3>
+            <p>Работаем напрямую с итальянскими и японскими фабриками тканей.</p>
+          </div>
+          <div class="why__item reveal--up">
+            <span class="why__num">02</span>
+            <h3>Ограниченный тираж</h3>
+            <p>Каждая капсула выпускается малой партией — без переизбытка на складе.</p>
+          </div>
+          <div class="why__item reveal--up">
+            <span class="why__num">03</span>
+            <h3>Контроль качества</h3>
+            <p>Лично проверяем каждую партию перед отправкой клиентам.</p>
+          </div>
+          <div class="why__item reveal--up">
+            <span class="why__num">04</span>
+            <h3>Гарантия и сервис</h3>
+            <p>Бесплатный возврат в течение 30 дней и персональный стайлинг.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ОТЗЫВЫ ===================== -->
+    <section class="reviews" id="reviews">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow reveal--up">Отзывы</span>
+            <h2 class="section-title reveal--up">Что говорят клиенты</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="reviews__track">
+          <div class="review-card">
+            <div class="review-card__stars">★★★★★</div>
+            <p class="review-card__text">Качество ткани превосходит любой масс-маркет — пальто носится третий сезон без потери формы.</p>
+            <div class="review-card__author">
+              <div class="review-card__avatar"></div>
+              <div><div class="review-card__name">Айгерим Т.</div><div class="review-card__role">Алматы</div></div>
+            </div>
+          </div>
+          <div class="review-card">
+            <div class="review-card__stars">★★★★★</div>
+            <p class="review-card__text">Сидит идеально, крой продуман до миллиметра. Это тот редкий случай, когда цена полностью оправдана.</p>
+            <div class="review-card__author">
+              <div class="review-card__avatar"></div>
+              <div><div class="review-card__name">Данияр С.</div><div class="review-card__role">Астана</div></div>
+            </div>
+          </div>
+          <div class="review-card">
+            <div class="review-card__stars">★★★★☆</div>
+            <p class="review-card__text">Доставка чуть задержалась, но вещь стоила ожидания. Костюм выглядит как кутюрная работа.</p>
+            <div class="review-card__author">
+              <div class="review-card__avatar"></div>
+              <div><div class="review-card__name">Мадина К.</div><div class="review-card__role">Шымкент</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== FAQ ===================== -->
+    <section class="faq" id="faq">
+      <div class="container">
+        <div class="section-head" style="justify-content:center; text-align:center;">
+          <div style="width:100%;">
+            <span class="eyebrow reveal--up" style="justify-content:center;">FAQ</span>
+            <h2 class="section-title reveal--up" style="margin-inline:auto;">Часто задаваемые вопросы</h2>
+          </div>
+        </div>
+
+        <div class="faq__list">
+          <div class="faq__item">
+            <button class="faq__q">Как подобрать размер?<span class="faq__icon">+</span></button>
+            <div class="faq__a"><p>На каждой странице товара есть таблица размеров. Если сомневаетесь — напишите нам, поможем подобрать индивидуально.</p></div>
+          </div>
+          <div class="faq__item">
+            <button class="faq__q">Сколько идёт доставка?<span class="faq__icon">+</span></button>
+            <div class="faq__a"><p>По Казахстану — 1-3 дня, по СНГ — 5-7 дней. Международная доставка обсуждается индивидуально.</p></div>
+          </div>
+          <div class="faq__item">
+            <button class="faq__q">Можно ли вернуть товар?<span class="faq__icon">+</span></button>
+            <div class="faq__a"><p>Да, в течение 30 дней с момента покупки при сохранении бирок и товарного вида.</p></div>
+          </div>
+          <div class="faq__item">
+            <button class="faq__q">Есть ли примерочная в офлайне?<span class="faq__icon">+</span></button>
+            <div class="faq__a"><p>Шоурум работает по предварительной записи в Алматы — координаты в разделе "Контакты".</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== КОНТАКТЫ ===================== -->
+    <section class="contact" id="contact">
+      <div class="container contact__grid">
+        <div>
+          <span class="eyebrow reveal--up">Контакты</span>
+          <h2 class="section-title reveal--up">Свяжитесь с нами</h2>
+
+          <form class="contact__form" id="contactForm" data-contact-form data-worker-url="https://ooxyel-contact-proxy.YOUR-SUBDOMAIN.workers.dev" style="margin-top:40px;">
+            <div class="field">
+              <input type="text" name="name" id="contactName" required>
+              <label>Имя</label>
+            </div>
+            <div class="field">
+              <input type="email" name="email" id="contactEmail" required>
+              <label>Email</label>
+            </div>
+            <div class="field">
+              <textarea name="message" id="contactMessage" rows="4" required></textarea>
+              <label>Сообщение</label>
+            </div>
+            <button type="submit" class="btn btn--primary magnetic">Отправить</button>
+          </form>
+        </div>
+
+        <div class="contact__info reveal--up">
+          <div>
+            <h3>Шоурум</h3>
+            <p>Алматы, ул. Достык 91, 3 этаж (по записи)</p>
+          </div>
+          <div>
+            <h3>Связь</h3>
+            <p>perec0848@gmail.com</p>
+            <p>+375 29 303 62 07</p>
+          </div>
+          <div>
+            <h3>Соцсети</h3>
+            <p>·Instagram · Telegram </p>
+          </div>
+          <div class="contact__map"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="container footer__top">
+      <div>
+        <div class="footer__logo">Zara</div>
+        <p class="footer__about">Премиальный бренд одежды. Минимализм, качество тканей
+          и крой, который остаётся актуальным годами.</p>
+        <div class="footer__social">
+          <a href="https://www.instagram.com/motivchannel812?igsh=MXB6M25vY2Y5MTJtYQ==" target="_blank" rel="noreferrer" aria-label="Instagram">IG</a>
+          <a href="https://t.me/+0cFu1lly1rJiMGUy" target="_blank" rel="noreferrer" aria-label="Telegram">TG</a>
+        </div>
+      </div>
+      <div class="footer__col">
+        <h4>Каталог</h4>
+        <a href="#collection">Новая коллекция</a>
+        <a href="#products">Бестселлеры</a>
+        <a href="#lookbook">Lookbook</a>
+      </div>
+      <div class="footer__col">
+        <h4>Бренд</h4>
+        <a href="#about">О нас</a>
+        <a href="#why">Почему мы</a>
+        <a href="#reviews">Отзывы</a>
+      </div>
+      <div class="footer__col">
+        <h4>Поддержка</h4>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Контакты</a>
+        <a href="#">Доставка и возврат</a>
+      </div>
+    </div>
+    <div class="container footer__bottom">
+      <span>© <span data-year></span> Zara. Все права защищены.</span>
+      <span>Сделано с вниманием к деталям.</span>
+    </div>
+  </footer>
+
+  <!-- ===================== СКРИПТЫ ===================== -->
+  <!-- GSAP подключён через CDN: используется в main.js для доп. scroll-эффектов.
+       Если убрать эти 2 строки — сайт продолжит работать на чистом CSS/JS. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Порядок важен: loader → cursor → navbar → products/gallery → scroll/animations → effects → main -->
+  <script src="loader.js"></script>
+  <script src="cursor.js"></script>
+  <script src="navbar.js"></script>
+  <script src="cart.js"></script>
+  <script src="products.js"></script>
+  <script src="catalog.js"></script>
+  <script src="gallery.js"></script>
+  <script src="scroll.js"></script>
+  <script src="animations.js"></script>
+  <script src="effects.js"></script>
+  <script src="contact.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

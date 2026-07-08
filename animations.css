@@ -1,0 +1,120 @@
+/* ============================================================
+   Zara — ANIMATIONS.CSS
+   Все keyframes сайта собраны в одном файле, чтобы
+   их было легко найти и подправить.
+   ============================================================ */
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes scroll-pulse {
+  0%, 100% { opacity: 0.2; transform: scaleY(0.6); }
+  50%      { opacity: 1;   transform: scaleY(1); }
+}
+
+@keyframes ripple-anim {
+  to { transform: scale(3); opacity: 0; }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(36px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes blur-in {
+  from { opacity: 0; filter: blur(14px); transform: scale(1.04); }
+  to   { opacity: 1; filter: blur(0);    transform: scale(1); }
+}
+
+@keyframes letter-rise {
+  from { opacity: 0; transform: translateY(100%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 30px var(--color-accent-glow); }
+  50%      { box-shadow: 0 0 70px var(--color-accent-glow); }
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-14px); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ---------- КЛАССЫ, УПРАВЛЯЕМЫЕ JS (Intersection Observer) ---------- */
+/*
+  Логика: элементы с классом .reveal по умолчанию скрыты (см. style.css).
+  Когда js/scroll.js видит элемент во вьюпорте, он добавляет
+  модификатор (.reveal--up / .reveal--blur / .reveal--in), который
+  запускает соответствующую анимацию.
+*/
+
+.reveal--up.is-visible    { animation: fade-up 0.9s var(--ease-out) forwards; }
+.reveal--blur.is-visible  { animation: blur-in 1.1s var(--ease-out) forwards; }
+.reveal--in.is-visible    { animation: fade-in 0.8s var(--ease-out) forwards; }
+
+/* Лёгкая последовательная задержка для групп карточек (stagger) */
+.stagger > * { opacity: 0; }
+.stagger.is-visible > *:nth-child(1) { animation: fade-up 0.8s var(--ease-out) forwards 0.05s; }
+.stagger.is-visible > *:nth-child(2) { animation: fade-up 0.8s var(--ease-out) forwards 0.15s; }
+.stagger.is-visible > *:nth-child(3) { animation: fade-up 0.8s var(--ease-out) forwards 0.25s; }
+.stagger.is-visible > *:nth-child(4) { animation: fade-up 0.8s var(--ease-out) forwards 0.35s; }
+.stagger.is-visible > *:nth-child(5) { animation: fade-up 0.8s var(--ease-out) forwards 0.45s; }
+.stagger.is-visible > *:nth-child(6) { animation: fade-up 0.8s var(--ease-out) forwards 0.55s; }
+.stagger.is-visible > *:nth-child(7) { animation: fade-up 0.8s var(--ease-out) forwards 0.65s; }
+.stagger.is-visible > *:nth-child(8) { animation: fade-up 0.8s var(--ease-out) forwards 0.75s; }
+
+/* Буквенная анимация заголовка героя — управляется hero.js через style="--d:" */
+.split-text.is-visible span {
+  animation: letter-rise 0.8s var(--ease-out) forwards;
+  animation-delay: calc(var(--d, 0) * 0.04s);
+}
+
+/* Магнитные кнопки — само смещение считает js/effects.js через translate(),
+   тут только плавность перехода между позициями */
+.magnetic { transition: transform 0.25s var(--ease-out); }
+
+.float { animation: float-y 5s ease-in-out infinite; }
+.glow-anim { animation: glow-pulse 3s ease-in-out infinite; }
+
+/* Шиммер для плейсхолдеров / лоадера товаров */
+.shimmer {
+  background: linear-gradient(100deg, var(--color-surface) 30%, #232327 50%, var(--color-surface) 70%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+/* Бегущая строка (марки/материалы в секции "О бренде" или footer) */
+.marquee {
+  display: flex;
+  white-space: nowrap;
+  width: max-content;
+  animation: marquee-scroll 22s linear infinite;
+}
+
+/* Уважение к настройкам пользователя: отключаем тяжёлую анимацию */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
