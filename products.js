@@ -33,16 +33,35 @@
   };
 
   const FAV_KEY = 'oox_favorites';
+  let memoryFavorites = [];
+
+  function storageGet(key) {
+    try { return window.localStorage ? window.localStorage.getItem(key) : null; }
+    catch { return null; }
+  }
+
+  function storageSet(key, value) {
+    try {
+      if (!window.localStorage) return false;
+      window.localStorage.setItem(key, value);
+      return true;
+    } catch {
+      return false;
+    }
+  }
 
   function getFavorites() {
-    try { return JSON.parse(localStorage.getItem(FAV_KEY)) || []; }
-    catch { return []; }
+    const raw = storageGet(FAV_KEY);
+    if (!raw) return memoryFavorites;
+    try { return JSON.parse(raw) || []; }
+    catch { return memoryFavorites; }
   }
   function toggleFavorite(id) {
     const favs = getFavorites();
     const idx = favs.indexOf(id);
     if (idx > -1) favs.splice(idx, 1); else favs.push(id);
-    localStorage.setItem(FAV_KEY, JSON.stringify(favs));
+    memoryFavorites = favs;
+    storageSet(FAV_KEY, JSON.stringify(favs));
     return favs.includes(id);
   }
 

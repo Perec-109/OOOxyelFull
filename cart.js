@@ -13,15 +13,34 @@
 
 (function () {
   const CART_KEY = 'oox_cart';
+  let memoryCart = [];
+
+  function storageGet(key) {
+    try { return window.localStorage ? window.localStorage.getItem(key) : null; }
+    catch { return null; }
+  }
+
+  function storageSet(key, value) {
+    try {
+      if (!window.localStorage) return false;
+      window.localStorage.setItem(key, value);
+      return true;
+    } catch {
+      return false;
+    }
+  }
 
   // ---------- Состояние ----------
   function getCart() {
-    try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; }
-    catch { return []; }
+    const raw = storageGet(CART_KEY);
+    if (!raw) return memoryCart;
+    try { return JSON.parse(raw) || []; }
+    catch { return memoryCart; }
   }
 
   function saveCart(cart) {
-    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    memoryCart = cart;
+    storageSet(CART_KEY, JSON.stringify(cart));
     renderCart();
     updateCount();
   }

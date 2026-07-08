@@ -89,21 +89,5 @@
     });
   }
 
-  /* ---------- ОТПРАВКА ФОРМЫ КОНТАКТОВ (демо, без backend) ---------- */
-  const form = document.querySelector('.contact__form');
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const btn = form.querySelector('button[type="submit"]');
-      const original = btn.textContent;
-      btn.textContent = 'Отправлено ✓';
-      btn.disabled = true;
-      setTimeout(() => {
-        btn.textContent = original;
-        btn.disabled = false;
-        form.reset();
-        form.querySelectorAll('.field').forEach((f) => f.classList.remove('is-active'));
-      }, 2200);
-    });
-  }
+  /* Форма контактов отправляется в contact.js через Cloudflare Worker. */
 })();
