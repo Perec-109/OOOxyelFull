@@ -65,7 +65,8 @@
       form.querySelectorAll('.field').forEach((f) => f.classList.remove('is-active'));
     } catch (error) {
       console.error('Contact form error:', error);
-      status.textContent = 'Не удалось отправить заявку. Попробуйте ещё раз чуть позже.';
+      const details = error?.message ? ` (${error.message})` : '';
+      status.textContent = `Не удалось отправить заявку${details}.`;
       status.style.color = '#ff8a80';
     } finally {
       button.textContent = originalText;

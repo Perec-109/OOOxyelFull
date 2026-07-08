@@ -386,13 +386,24 @@ h1, h2, h3, h4 {
    или с футером (там воздух уместен). */
 .about + .collection,
 .collection + .products,
-.products + .lookbook,
 .lookbook + .gallery,
 .gallery + .why,
 .why + .reviews,
 .reviews + .faq,
 .faq + .contact {
-  padding-top: clamp(24px, 4vw, 60px);
+  padding-top: clamp(12px, 2vw, 32px);
+}
+
+.products {
+  padding-bottom: clamp(20px, 3vw, 44px);
+}
+
+.products + .lookbook {
+  padding-top: 0;
+}
+
+.products + .lookbook .section-head {
+  margin-bottom: 28px;
 }
 
 .section-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; flex-wrap: wrap; margin-bottom: 64px; }
@@ -549,6 +560,24 @@ h1, h2, h3, h4 {
 .contact__info { display: flex; flex-direction: column; gap: 36px; }
 .contact__info h3 { font-size: var(--fs-h3); }
 .contact__info p { color: var(--color-text-dim); margin-top: 8px; }
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 18px;
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  transition: background var(--dur-fast), color var(--dur-fast), transform var(--dur-fast);
+}
+.social-link:hover {
+  background: var(--color-accent);
+  color: var(--color-bg);
+  transform: translateY(-2px);
+}
 .contact__map { margin-top: 12px; aspect-ratio: 16/9; border-radius: var(--radius-md); background: linear-gradient(160deg, var(--color-surface), var(--color-bg-soft)); border: 1px solid var(--color-border); position: relative; overflow: hidden; }
 .contact__map::after {
   content: 'ALMATY / Zara';
@@ -571,11 +600,16 @@ h1, h2, h3, h4 {
 .footer__about { margin-top: 18px; color: var(--color-text-dim); max-width: 32ch; font-size: 0.92rem; }
 .footer__social { display: flex; gap: 16px; margin-top: 24px; }
 .footer__social a {
-  width: 38px; height: 38px; border: 1px solid var(--color-border-strong); border-radius: 50%;
+  min-width: 128px; height: 42px; padding: 0 18px; border: 1px solid var(--color-accent); border-radius: var(--radius-sm);
   display: flex; align-items: center; justify-content: center;
-  transition: border-color var(--dur-fast), color var(--dur-fast);
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  transition: border-color var(--dur-fast), color var(--dur-fast), background var(--dur-fast), transform var(--dur-fast);
 }
-.footer__social a:hover { border-color: var(--color-accent); color: var(--color-accent); }
+.footer__social a:hover { background: var(--color-accent); color: var(--color-bg); transform: translateY(-2px); }
 
 .footer__col h4 { font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: var(--ls-wide); text-transform: uppercase; color: var(--color-text-faint); margin-bottom: 18px; }
 .footer__col a, .footer__col li { display: block; color: var(--color-text-dim); font-size: 0.92rem; margin-bottom: 12px; transition: color var(--dur-fast); }
